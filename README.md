@@ -12,29 +12,29 @@ Crearea unei aplicații Web, scrierea testelor pentru aceasta și configurarea i
 ### 1. Structura proiectului
 Aplicația web a fost plasată în directorul `site/` și conține:
 - `modules/` – conține clasele `Database` și `Page`.
-![](images\Screenshot_3.png)
+![](images/Screenshot_3.png)
 
-![](images\Screenshot_4.png)
+![](images/Screenshot_4.png)
 
 - `templates/` – conține fișierul `index.tpl`, un șablon HTML simplu.
 
-![](images\Screenshot_5.png)
+![](images/Screenshot_5.png)
 
 - `styles/` – conține fișierul `style.css`.
 
-![](images\Screenshot_6.png)
+![](images/Screenshot_6.png)
 
 - `config.php` – definește configurația căii către fișierul bazei de date.
 
-![](images\Screenshot_7.png)
+![](images/Screenshot_7.png)
 
 - `index.php` – scriptul principal care încarcă datele din baza de date și le afișează.
 
-![](images\Screenshot_8.png)
+![](images/Screenshot_8.png)
 
 -`schema.sql` pregătirea fișierului SQL pentru baza de date.
 
-![](images\Screenshot_9.png)
+![](images/Screenshot_9.png)
 
 
 
@@ -42,11 +42,11 @@ Aplicația web a fost plasată în directorul `site/` și conține:
 În directorul `tests/` au fost definite:
 - Un framework simplu de testare (`testframework.php`).
 
-![](images\Screenshot_10.png)
+![](images/Screenshot_10.png)
 
 - Teste unitare pentru toate metodele claselor `Database` și `Page` în fișierul `tests.php`.
 
-![](images\Screenshot_11.png)
+![](images/Screenshot_11.png)
 
 ### 3. Docker
 Fișierul `Dockerfile` creează o imagine PHP 7.4 cu suport pentru SQLite și:
@@ -54,7 +54,7 @@ Fișierul `Dockerfile` creează o imagine PHP 7.4 cu suport pentru SQLite și:
 - Creează baza de date folosind fișierul `schema.sql`.
 - Copiază aplicația web în container.
 
-![](images\Screenshot_12.png)
+![](images/Screenshot_12.png)
 
 ### 4. GitHub Actions
 Fișierul `.github/workflows/main.yml` definește un workflow care:
@@ -64,13 +64,13 @@ Fișierul `.github/workflows/main.yml` definește un workflow care:
 - Rulează testele din container.
 - Curăță resursele după rularea testelor.
 
-![](images\Screenshot_13.png)
+![](images/Screenshot_13.png)
 
 ### 5. Pornire si Testare
 Testele au fost trecute cu succes.
 
-![](images\Screenshot_1.png)
-![](images\Screenshot_2.png)
+![](images/Screenshot_1.png)
+![](images/Screenshot_2.png)
 
 
 ## Răspunsuri la întrebări
