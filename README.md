@@ -12,6 +12,7 @@ Crearea unei aplicații Web, scrierea testelor pentru aceasta și configurarea i
 ### 1. Structura proiectului
 Aplicația web a fost plasată în directorul `site/` și conține:
 - `modules/` – conține clasele `Database` și `Page`.
+
 ![](images/Screenshot_3.png)
 
 ![](images/Screenshot_4.png)
