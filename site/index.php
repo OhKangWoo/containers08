@@ -13,3 +13,4 @@ $pageId = $_GET['page'] ?? 1;
 $data = $db->Read("page", $pageId);
 
 echo $page->Render($data);
+?>
