@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'php:8.2-cli'   // agentul va rula în containerul oficial PHP
-            args '-v $PWD:/app -w /app'
-        }
-    }
+    agent any
 
     stages {
         stage('Checkout') {
@@ -13,10 +8,10 @@ pipeline {
             }
         }
 
-        stage('Install Composer & Dependencies') {
+        stage('Install PHP & Composer') {
             steps {
                 sh '''
-                    apt-get update && apt-get install -y unzip git sqlite3
+                    apt-get update && apt-get install -y php php-cli php-mbstring unzip git sqlite3 curl
                     curl -sS https://getcomposer.org/installer | php
                     php composer.phar install
                 '''
@@ -38,11 +33,8 @@ pipeline {
     }
 
     post {
-        always {
-            echo 'Pipeline finalizat.'
-        }
         success {
-            echo '✅ Toate testele au trecut cu succes!'
+            echo '✅ Testele au trecut!'
         }
         failure {
             echo '❌ Testele au eșuat!'
