@@ -16,9 +16,11 @@ pipeline {
                 echo 'Setting up SQLite database...'
                 sh '''
                     cd site
-                    sqlite3 data.db < schema.sql
-                    echo "Database created successfully"
-                    ls -lh data.db
+                    if [ -f schema.sql ]; then
+                        sqlite3 database.db < schema.sql
+                    else
+                        echo "Warning: schema.sql not found. Skipping DB setup."
+                    fi
                 '''
             }
         }
