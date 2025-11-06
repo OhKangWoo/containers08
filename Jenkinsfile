@@ -1,18 +1,24 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'php:8.2-cli'   // agentul va rula în containerul oficial PHP
+            args '-v $PWD:/app -w /app'
+        }
+    }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/OhKangWoo/containers08.git'
+                git 'https://github.com/OhKangWoo/containers08.git'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Install Composer & Dependencies') {
             steps {
                 sh '''
-                    echo "Instalare dependințe PHP..."
-                    composer install || true
+                    apt-get update && apt-get install -y unzip git sqlite3
+                    curl -sS https://getcomposer.org/installer | php
+                    php composer.phar install
                 '''
             }
         }
@@ -20,12 +26,10 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '''
-                    echo "Rulare teste unitare..."
                     if [ -f ./vendor/bin/phpunit ]; then
                         ./vendor/bin/phpunit --testdox
                     else
-                        echo "⚠️ PHPUnit nu este instalat. Rulează testele manual sau instalează-l cu Composer."
-                        composer require --dev phpunit/phpunit
+                        php composer.phar require --dev phpunit/phpunit
                         ./vendor/bin/phpunit --testdox
                     fi
                 '''
@@ -35,13 +39,13 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline încheiat."
+            echo 'Pipeline finalizat.'
         }
         success {
-            echo "✅ Toate testele au trecut cu succes!"
+            echo '✅ Toate testele au trecut cu succes!'
         }
         failure {
-            echo "❌ Testele au eșuat!"
+            echo '❌ Testele au eșuat!'
         }
     }
 }
