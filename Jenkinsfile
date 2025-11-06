@@ -1,85 +1,47 @@
 pipeline {
-    agent {
-        label 'php-agent'
-    }
-    
-    stages {        
+    agent any
+
+    stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out source code from GitHub...'
-                checkout scm
+                git branch: 'main', url: 'https://github.com/OhKangWoo/containers08.git'
             }
         }
-        
-        stage('Setup Database') {
+
+        stage('Install Dependencies') {
             steps {
-                echo 'Setting up SQLite database...'
                 sh '''
-                    cd site
-                    if [ -f schema.sql ]; then
-                        sqlite3 database.db < schema.sql
+                    echo "Instalare dependințe PHP..."
+                    composer install || true
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh '''
+                    echo "Rulare teste unitare..."
+                    if [ -f ./vendor/bin/phpunit ]; then
+                        ./vendor/bin/phpunit --testdox
                     else
-                        echo "Warning: schema.sql not found. Skipping DB setup."
+                        echo "⚠️ PHPUnit nu este instalat. Rulează testele manual sau instalează-l cu Composer."
+                        composer require --dev phpunit/phpunit
+                        ./vendor/bin/phpunit --testdox
                     fi
                 '''
             }
         }
-        
-        stage('Verify Environment') {
-            steps {
-                echo 'Verifying PHP and SQLite installation...'
-                sh '''
-                    echo "PHP Version:"
-                    php --version
-                    echo ""
-                    echo "SQLite3 Extension:"
-                    php -m | grep sqlite3
-                    echo ""
-                    echo "SQLite Version:"
-                    sqlite3 --version
-                '''
-            }
-        }
-        
-        stage('Run Unit Tests') {
-            steps {
-                echo 'Running unit tests with custom test framework...'
-                sh '''
-                    cd tests
-                    php tests.php
-                '''
-            }
-        }
-        
-        stage('Test Summary') {
-            steps {
-                echo 'All tests completed successfully!'
-                sh '''
-                    echo "✓ Database class tests passed"
-                    echo "✓ Page class tests passed"
-                    echo "✓ All unit tests executed successfully"
-                '''
-            }
-        }
     }
-    
+
     post {
         always {
-            echo 'Pipeline execution completed.'
-            echo 'Cleaning up workspace...'
-            cleanWs()
+            echo "Pipeline încheiat."
         }
         success {
-            echo '=========================================='
-            echo 'SUCCESS: All stages completed successfully!'
-            echo 'All unit tests passed.'
-            echo '=========================================='
+            echo "✅ Toate testele au trecut cu succes!"
         }
         failure {
-            echo '=========================================='
-            echo 'FAILURE: Pipeline encountered errors.'
-            echo 'Please check the logs above for details.'
-            echo '=========================================='
+            echo "❌ Testele au eșuat!"
         }
     }
 }
