@@ -24,11 +24,18 @@ pipeline {
             }
         }
         stage('Debug PHP') {
-    steps {
-        sh '/usr/bin/php8.4 -i | grep "Loaded Configuration File"'
-        sh '/usr/bin/php8.4 -m | grep pdo_mysql'
-    }
-}
+            steps {
+                sh '/usr/bin/php8.4 -i | grep "Loaded Configuration File"'
+                sh '/usr/bin/php8.4 -m | grep pdo_mysql'
+            }
+        }
+
+        stage('Init Database') {
+            steps {
+                sh 'mkdir -p data'
+                sh 'sqlite3 data/mydatabase.db < sql/schema.sql'
+            }
+        }
 
         
         stage('Run Unit Tests') {
@@ -65,6 +72,7 @@ pipeline {
     }
 
 }
+
 
 
 
