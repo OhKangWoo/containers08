@@ -27,6 +27,7 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 echo 'Running PHPUnit tests...'
+                mkdir -p reports
                 sh 'vendor/bin/phpunit --testdox --log-junit reports/phpunit.xml'
             }
         }
@@ -51,4 +52,5 @@ pipeline {
             echo 'Tests failed or errors detected in the pipeline.'
         }
     }
+
 }
