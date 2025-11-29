@@ -29,7 +29,7 @@ pipeline {
                 echo 'Running PHPUnit tests...'
                 sh '''
                     mkdir -p reports
-                    vendor/bin/phpunit ./tests.php --testdox --log-junit reports/phpunit.xml
+                    vendor/bin/phpunit ./tests/tests.php --testdox --log-junit reports/phpunit.xml
                 '''
 
 
@@ -58,6 +58,7 @@ pipeline {
     }
 
 }
+
 
 
 
