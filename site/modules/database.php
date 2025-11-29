@@ -3,20 +3,22 @@
 class Database {
     private $db;
 
-    public function __construct($path) {
-        // Creează folderul dacă nu există
-        $dir = dirname($path);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
-        }
+    public function __construct($path = null) {
+    $dbPath = __DIR__ . '/../data/mydatabase.db';
 
-        // Inițializează conexiunea SQLite
-        $this->db = new PDO("sqlite:" . $path);
-
-        // Setează modul de eroare
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    // Creează folderul dacă nu există
+    $dir = dirname($dbPath);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
     }
+
+    // Creează conexiunea PDO
+    $this->db = new PDO("sqlite:" . $dbPath);
+
+    // Setări PDO
+    $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+
 
     public function Execute($sql) {
         return $this->db->exec($sql);
