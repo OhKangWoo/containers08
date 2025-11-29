@@ -4,7 +4,7 @@ pipeline {
     }
     
     environment {
-        ANSIBLE_REPO = 'https://github.com/OhKangWoo/containers05.git'
+        ANSIBLE_REPO = 'https://github.com/OhKangWoo/containers08.git'
         ANSIBLE_BRANCH = 'main'
     }
     
@@ -66,4 +66,5 @@ pipeline {
             echo 'Configuration failed. Check the logs for details.'
         }
     }
+
 }
