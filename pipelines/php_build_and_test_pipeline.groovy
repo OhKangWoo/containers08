@@ -21,7 +21,11 @@ pipeline {
             steps {
                 echo 'Installing Composer dependencies...'
                 sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
-                sh 'sudo apt install php8.4-sqlite3'
+                sh '''
+                    apt-get update
+                    apt-get install -y php8.4-sqlite3
+                    '''
+
             }
         }
         stage('Debug PHP') {
@@ -74,6 +78,7 @@ pipeline {
     }
 
 }
+
 
 
 
