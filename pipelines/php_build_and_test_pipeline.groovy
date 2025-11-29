@@ -27,8 +27,10 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 echo 'Running PHPUnit tests...'
+                sh '''
                 mkdir -p reports
-                sh 'vendor/bin/phpunit --testdox --log-junit reports/phpunit.xml'
+                vendor/bin/phpunit tests --testdox --log-junit reports/phpunit.xml
+                '''
             }
         }
         
@@ -54,3 +56,4 @@ pipeline {
     }
 
 }
+
