@@ -4,7 +4,7 @@ pipeline {
     }
     
     environment {
-        PHP_PROJECT_REPO = 'https://github.com/OhKangWoo/containers05.git'
+        PHP_PROJECT_REPO = 'https://github.com/OhKangWoo/containers08.git'
         PHP_PROJECT_BRANCH = 'main'
         DEPLOY_PATH = '/var/www/html/php-app'
     }
