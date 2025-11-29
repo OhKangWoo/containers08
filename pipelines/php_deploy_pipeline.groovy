@@ -19,7 +19,13 @@ pipeline {
         }
         stage('Check Inventory') {
     steps {
-        sh 'ls -la ansible/hosts.ini'
+        sh '''
+if [ ! -f ansible/hosts.ini ]; then
+    echo "ERROR: Inventory file ansible/hosts.ini not found!"
+    exit 1
+fi
+'''
+
     }
 }
 
@@ -111,3 +117,4 @@ EOF
     }
 
 }
+
