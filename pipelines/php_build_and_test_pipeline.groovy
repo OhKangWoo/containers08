@@ -33,7 +33,7 @@ pipeline {
         stage('Init Database') {
             steps {
                 sh 'mkdir -p data'
-                sh 'sqlite3 data/mydatabase.db < sql/schema.sql'
+                sh 'sqlite3 data/mydatabase.db < site/sql/schema.sql'
             }
         }
 
@@ -72,6 +72,7 @@ pipeline {
     }
 
 }
+
 
 
 
