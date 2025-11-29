@@ -17,6 +17,12 @@ pipeline {
                     url: "${PHP_PROJECT_REPO}"
             }
         }
+        stage('Check Inventory') {
+    steps {
+        sh 'ls -la ansible/hosts.ini'
+    }
+}
+
         
         stage('Create Deployment Playbook') {
             steps {
@@ -103,4 +109,5 @@ EOF
             echo 'Deployment failed. Check the logs for details.'
         }
     }
+
 }
