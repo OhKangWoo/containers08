@@ -4,8 +4,18 @@ class Database {
     private $db;
 
     public function __construct($path) {
-        $dbPath = __DIR__ . '/../data/mydatabase.db';
+        // Creează folderul dacă nu există
+        $dir = dirname($path);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
+        // Inițializează conexiunea SQLite
+        $this->db = new PDO("sqlite:" . $path);
+
+        // Setează modul de eroare
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
 
     public function Execute($sql) {
@@ -13,8 +23,7 @@ class Database {
     }
 
     public function Fetch($sql) {
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->db->query($sql)->fetchAll();
     }
 
     public function Create($table, $data) {
@@ -28,7 +37,7 @@ class Database {
     public function Read($table, $id) {
         $stmt = $this->db->prepare("SELECT * FROM $table WHERE id = :id");
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch();
     }
 
     public function Update($table, $id, $data) {
@@ -44,7 +53,6 @@ class Database {
     }
 
     public function Count($table) {
-        $stmt = $this->db->query("SELECT COUNT(*) FROM $table");
-        return $stmt->fetchColumn();
+        return $this->db->query("SELECT COUNT(*) FROM $table")->fetchColumn();
     }
 }
