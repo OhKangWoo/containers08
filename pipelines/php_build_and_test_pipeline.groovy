@@ -33,6 +33,7 @@ pipeline {
         stage('Init Database') {
             steps {
                 sh 'mkdir -p data'
+                sh 'chmod 777 data'
                 sh 'sqlite3 data/mydatabase.db < site/sql/schema.sql'
             }
         }
@@ -72,6 +73,7 @@ pipeline {
     }
 
 }
+
 
 
 
