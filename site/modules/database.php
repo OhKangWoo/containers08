@@ -4,7 +4,7 @@ class Database {
     private $db;
 
     public function __construct($path) {
-        $this->db = new PDO("sqlite:" . $path);
+        $dbPath = __DIR__ . '/../data/mydatabase.db';
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
