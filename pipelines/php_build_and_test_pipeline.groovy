@@ -21,38 +21,13 @@ pipeline {
             steps {
                 echo 'Installing Composer dependencies...'
                 sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
-                sh '''
-                    apt-get update
-                    apt-get install -y php8.4-sqlite3
-                    '''
-
             }
         }
-        stage('Debug PHP') {
-            steps {
-                sh '/usr/bin/php8.4 -i | grep "Loaded Configuration File"'
-                sh '/usr/bin/php8.4 -m | grep pdo_mysql'
-            }
-        }
-
-        stage('Init Database') {
-            steps {
-                sh 'mkdir -p data'
-                sh 'chmod 777 data'
-                sh 'sqlite3 data/mydatabase.db < site/sql/schema.sql'
-            }
-        }
-
         
         stage('Run Unit Tests') {
             steps {
                 echo 'Running PHPUnit tests...'
-                sh '''
-                    mkdir -p reports
-                    /usr/bin/php8.4 vendor/bin/phpunit ./tests/tests.php --testdox --log-junit reports/phpunit.xml
-                '''
-
-
+                sh 'vendor/bin/phpunit --testdox --log-junit reports/phpunit.xml'
             }
         }
         
@@ -76,18 +51,4 @@ pipeline {
             echo 'Tests failed or errors detected in the pipeline.'
         }
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
