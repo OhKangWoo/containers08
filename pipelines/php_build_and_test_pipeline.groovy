@@ -23,6 +23,13 @@ pipeline {
                 sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
             }
         }
+        stage('Debug PHP') {
+    steps {
+        sh '/usr/bin/php8.4 -i | grep "Loaded Configuration File"'
+        sh '/usr/bin/php8.4 -m | grep pdo_mysql'
+    }
+}
+
         
         stage('Run Unit Tests') {
             steps {
@@ -58,6 +65,7 @@ pipeline {
     }
 
 }
+
 
 
 
