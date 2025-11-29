@@ -6,18 +6,23 @@ class Database {
     public function __construct($path = null) {
     $dbPath = __DIR__ . '/../data/mydatabase.db';
 
-    // Creează folderul dacă nu există
     $dir = dirname($dbPath);
     if (!is_dir($dir)) {
         mkdir($dir, 0777, true);
     }
 
-    // Creează conexiunea PDO
-    $this->db = new PDO("sqlite:" . $dbPath);
+    $isNew = !file_exists($dbPath);
 
-    // Setări PDO
+    $this->db = new PDO("sqlite:" . $dbPath);
     $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // dacă baza este proaspăt creată → inițializează tabelele
+    if ($isNew) {
+        $schema = file_get_contents(__DIR__ . '/../data/schema.sql');
+        $this->db->exec($schema);
+    }
 }
+
 
 
     public function Execute($sql) {
