@@ -21,6 +21,7 @@ pipeline {
             steps {
                 echo 'Installing Composer dependencies...'
                 sh 'composer install --no-interaction --prefer-dist --optimize-autoloader'
+                sh 'apt install php8.4-sqlite3'
             }
         }
         stage('Debug PHP') {
@@ -73,6 +74,7 @@ pipeline {
     }
 
 }
+
 
 
 
